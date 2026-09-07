@@ -75,6 +75,10 @@ This project will use only respectful, abstract coastal references until Mura su
 
 Every page uses the facilitator tide-chart shell: a left orientation rail, a central working canvas, and a right-edge strip for the planner, print-ready tools and QR access.
 
+The user has asked that the public landing page keep its simple card-based layout. The landing page therefore remains a compact front door, while the fuller tide-chart shell is retained for facilitator resources and planning pages.
+
+The landing page uses practical document and resource icons rather than emoji symbols. No new graphic assets will be introduced: the site uses only the user-supplied Playgroup photographs, while simple CSS tide lines and markers support the Mura wordmark.
+
 Tidal contour lines, woven planning bands and round tide markers are structural components. They appear in the masthead, navigation, tabs, section headings, activity categories, planning status and downloaded material cues.
 
 The circular tide-and-mat mark and serif-and-sans wordmark remain visible above content as well as in the primary navigation. Reef Current (`#057C83`) is reserved for principal navigation and actions.

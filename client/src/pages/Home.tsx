@@ -1,6 +1,6 @@
 /**
  * Tidal Storylines design: a warm, practical, Torres Strait-focused facilitator canvas.
- * The Home view intentionally preserves the pre-session Mipla landing page; inner resource pages use Reef Current teal, tide contours and document-like tools.
+ * The Home view retains its simple card-based layout while every page uses the Mura Moegi Kaziw Sagulau Playgroup name and Torres Strait terminology.
  */
 import { useEffect, useMemo, useState } from "react";
 import { jsPDF } from "jspdf";
@@ -28,7 +28,7 @@ import {
   X,
 } from "lucide-react";
 
-type Page = "home" | "learn" | "toolkit" | "activities" | "planner";
+type Page = "home" | "learn" | "toolkit" | "activities" | "planner" | "promotional";
 type Stage = "start" | "middle" | "end";
 type ToolkitTab = "structure" | "setup" | "checklist" | "digital";
 type ActivityType = "cultural" | "organised" | "nature" | "parallel" | "digital";
@@ -65,15 +65,15 @@ type SessionPlan = {
 const BRAND = "Mura Moegi Kaziw Sagulau Playgroup";
 const STORAGE_KEY = "mmksp-session-plans-v1";
 const CHECKLIST_KEY = "mmksp-facilitator-checklist-v1";
-const logoUrl = "/manus-storage/mmksp-tide-mark_42ec5525.png";
-const legacyLogoUrl = "/manus-storage/mipla-playgroup-original-logo_9fc492c1.png";
-const heroUrl = "/manus-storage/mmksp-hero-tidal-learning_7c8a6450.jpg";
-const digitalPlayUrl = "/manus-storage/mmksp-digital-play_509bb138.jpg";
-const planningTextureUrl = "/manus-storage/mmksp-planning-texture_27bd97c1.jpg";
-const playgroupPhotoUrl = "/manus-storage/mipla-playgroup-session_b76cd849.webp";
-const childPlayPhotoUrl = "/manus-storage/mipla-child-playing_5e212f5c.png";
-const weavingPhotoUrl = "/manus-storage/mipla-weaving-activity_3e5102a6.jpg";
+const landingPhotoUrl = "/manus-storage/beading-time_19b1ea9c.webp";
+const heroUrl = "/manus-storage/drawing-time_da4bc67f.png";
+const digitalPlayUrl = "/manus-storage/tunnel-play_924c801e.webp";
+const planningTextureUrl = "/manus-storage/drawing-time_da4bc67f.png";
+const playgroupPhotoUrl = "/manus-storage/beading-time_19b1ea9c.webp";
+const childPlayPhotoUrl = "/manus-storage/toddler-play_b22b4bba.png";
+const weavingPhotoUrl = "/manus-storage/weaving-time_3fcd5728.jpg";
 const suppliedGuideUrl = "/manus-storage/MMKS-facilitators-guide_37dfecf7.pdf";
+const printableGuideUrl = "/manus-storage/main_d0f52e85.pdf";
 
 const navItems: { id: Page; label: string; icon: typeof BookOpen }[] = [
   { id: "home", label: "Overview", icon: LayoutGrid },
@@ -82,6 +82,7 @@ const navItems: { id: Page; label: string; icon: typeof BookOpen }[] = [
   { id: "activities", label: "Activity library", icon: Sparkles },
   { id: "planner", label: "Session planner", icon: FileText },
 ];
+const pageIds: Page[] = ["home", "learn", "toolkit", "activities", "planner", "promotional"];
 
 const activities: Activity[] = [
   {
@@ -135,7 +136,7 @@ const activities: Activity[] = [
   {
     id: "digital-play",
     name: "Digital Play",
-    description: "Encourages foundational skills in literacy, numeracy, and digital literacy through play-based learning. Offers digital content that reflects Indigenous languages, stories, and traditions.",
+    description: "Encourages foundational skills in literacy, numeracy, and digital literacy through play-based learning. Offers digital content that reflects Indigenous languages, stories, and traditional knowledge.",
     type: "digital",
     duration: 20,
     ages: "2–4 years",
@@ -330,10 +331,32 @@ function pdfParagraph(doc: jsPDF, label: string, value: string, y: number) {
   return y + 6 + lines.length * 5 + 8;
 }
 
+function facilitatorGuideStages(activity: Activity) {
+  return [
+    {
+      title: "Before the activity",
+      steps: [
+        activity.cultural ? "Confirm that the local story, language, song, imagery or activity is approved for this session." : "Check that the space, materials and activity are appropriate for the children present.",
+        `Prepare ${activity.materials.slice(0, 3).join(", ").toLowerCase()}.`,
+        "Invite carers to stay nearby and explain how they can join the play.",
+      ],
+    },
+    { title: "During the activity", steps: activity.instructions },
+    {
+      title: "After the activity",
+      steps: [
+        "Give children time to finish, share or show what they have done.",
+        "Pack away together where practical and check the space is safe.",
+        "Record a brief reflection on engagement, learning or an idea for the next session.",
+      ],
+    },
+  ];
+}
+
 export default function Home() {
   const [page, setPage] = useState<Page>(() => {
     const requestedPage = new URLSearchParams(window.location.search).get("page") as Page | null;
-    if (requestedPage && navItems.some((item) => item.id === requestedPage)) return requestedPage;
+    if (requestedPage && pageIds.includes(requestedPage)) return requestedPage;
     return "home";
   });
   const [menuOpen, setMenuOpen] = useState(false);
@@ -355,8 +378,10 @@ export default function Home() {
       setPlans([]);
       setChecklist({});
     }
-    void QRCode.toDataURL(window.location.href, {
-      width: 360,
+    const promotionalUrl = new URL(window.location.href);
+    promotionalUrl.search = "?page=promotional";
+    void QRCode.toDataURL(promotionalUrl.toString(), {
+      width: 520,
       margin: 2,
       color: { dark: "#057C83", light: "#FFFFFF" },
     }).then(setQrUrl);
@@ -518,17 +543,62 @@ export default function Home() {
     let y = 58;
     y = pdfParagraph(doc, "Using this guide", "Use the Learn section to prepare, the Toolkit to set up and reflect, the Activity library to select play-based experiences, and the Session planner to record a local session. The website saves planning information in the browser on the device being used.", y);
     y = pdfParagraph(doc, "Session rhythm", "Start: welcome and settling in. Middle: free play and parent discussion. End: a structured experience, goodbye ritual and pack-up. Adjust timing to meet community and family needs.", y);
-    y = pdfParagraph(doc, "Digital Play", "Digital Play encourages foundational skills in literacy, numeracy and digital literacy through play-based learning. Use the bot mat, instructional videos and cards, and mats and cushions for sitting. Use only approved local-language, story and cultural content.", y);
+    y = pdfParagraph(doc, "Digital Play", "Digital Play encourages foundational skills in literacy, numeracy, and digital literacy through play-based learning. Offers digital content that reflects Indigenous languages, stories, and traditional knowledge. Use the bot mat, instructional videos and cards, and mats and cushions for sitting. Use only approved local-language, story and cultural content.", y);
     y = pdfParagraph(doc, "Planning and reporting", "Record the community name and session time in each plan. Add children and carers attending, engagement, learning, and a brief reflection. Download the plan directly to an outreach worker’s computer for local reporting and safe record keeping.", y);
-    y = pdfParagraph(doc, "Cultural care", "Use local stories, language, imagery and activities only with appropriate community approval. Replace the website’s abstract visual material with approved Mura photographs, logo and cultural artwork when supplied.", y);
-    doc.setFillColor(238, 244, 240);
-    doc.roundedRect(14, y, 182, 34, 3, 3, "F");
+    y = pdfParagraph(doc, "Cultural care", "Use local stories, language, imagery and activities only with appropriate community approval. Use only Mura-approved photographs, logo material and cultural artwork.", y);
+    doc.addPage();
+    pdfHeader(doc, "Activity library", "Materials and facilitator guidance for each activity");
+    y = 57;
+    activities.forEach((activity, activityIndex) => {
+      const estimatedHeight = 58 + activity.instructions.length * 7;
+      if (y + estimatedHeight > 278) {
+        doc.addPage();
+        pdfHeader(doc, "Activity library", "Materials and facilitator guidance for each activity");
+        y = 57;
+      }
+      doc.setFillColor(activity.type === "digital" ? 112 : activity.cultural ? 199 : 5, activity.type === "digital" ? 95 : activity.cultural ? 100 : 124, activity.type === "digital" ? 157 : activity.cultural ? 63 : 131);
+      doc.roundedRect(14, y - 6, 182, 9, 2, 2, "F");
+      doc.setTextColor(255, 255, 255);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10);
+      doc.text(`${String(activityIndex + 1).padStart(2, "0")}. ${activity.name}`, 18, y);
+      doc.setTextColor(27, 48, 50);
+      y += 10;
+      y = pdfParagraph(doc, "Description", activity.description, y);
+      y = pdfParagraph(doc, "Materials", activity.materials.join("; "), y);
+      facilitatorGuideStages(activity).forEach((stage) => {
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(5, 124, 131);
+        doc.setFontSize(9.5);
+        doc.text(stage.title, 14, y);
+        y += 5;
+        doc.setFont("helvetica", "normal");
+        doc.setTextColor(27, 48, 50);
+        doc.setFontSize(8.7);
+        stage.steps.forEach((step, index) => {
+          const lines = doc.splitTextToSize(`${index + 1}. ${step}`, 176);
+          if (y + lines.length * 4.4 > 280) {
+            doc.addPage();
+            pdfHeader(doc, "Activity library", "Materials and facilitator guidance for each activity");
+            y = 57;
+          }
+          doc.text(lines, 18, y);
+          y += lines.length * 4.4 + 1.8;
+        });
+        y += 3;
+      });
+      y += 3;
+    });
+    doc.addPage();
+    pdfHeader(doc, "Facilitator notes", "Use this page for local planning, follow-up and reflections");
     doc.setTextColor(27, 48, 50);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(11);
-    doc.text("Facilitator notes", 19, y + 9);
     doc.setFont("helvetica", "normal");
-    [17, 23, 29].forEach((offset) => doc.line(19, y + offset, 190, y + offset));
+    doc.setFontSize(10);
+    doc.text("Session name:", 14, 62);
+    doc.text("Community:", 14, 76);
+    doc.text("Date and time:", 14, 90);
+    doc.text("What worked well, what children enjoyed, and next steps:", 14, 108);
+    [120, 132, 144, 156, 168, 180, 192, 204, 216, 228, 240, 252, 264].forEach((line) => doc.line(14, line, 196, line));
     doc.save("mmksp-facilitator-guide.pdf");
   };
 
@@ -539,6 +609,10 @@ export default function Home() {
     link.download = "mmksp-access-qr-code.png";
     link.click();
   };
+
+  const renderPromotional = () => (
+    <section className="page-frame promotional-page"><p className="eyebrow"><span /> Community access</p><h1>Mura Kosker Promotional Material</h1><p>Use this link to share approved Playgroup information with staff, families and community. Please contact Mura Kosker Sorority Inc. before reproducing cultural content, photographs or downloadable materials elsewhere.</p><div className="promotional-qr">{qrUrl && <img src={qrUrl} alt="QR code for Mura Kosker Promotional Material" />}<div><h2>Share the Playgroup website</h2><p>Scan the QR code to return to this community access page, then use the site menu to explore the Playgroup resources.</p><button className="primary-button" onClick={downloadQrCode}><Download size={17} /> Download promotional QR</button></div></div></section>
+  );
 
   const renderHome = () => (
     <>
@@ -554,7 +628,7 @@ export default function Home() {
           <div className="hero-assurance"><ShieldCheck size={17} /> Plans stay in this browser until you choose to download them.</div>
         </div>
         <div className="hero-image-wrap">
-          <img className="hero-image" src={heroUrl} alt="Play-based learning materials arranged on a woven mat" />
+          <img className="hero-image" src={heroUrl} alt="Child creating artwork during a Mura Moegi Kaziw Sagulau Playgroup session" />
           <div className="hero-image-caption"><span>01</span><div><strong>Plan with purpose</strong><small>Start - Middle - End</small></div></div>
         </div>
       </section>
@@ -581,7 +655,7 @@ export default function Home() {
       </section>
 
       <section className="digital-feature">
-        <div className="digital-image-wrap"><img src={digitalPlayUrl} alt="Tablet and instructional cards arranged for a digital play activity" /></div>
+        <div className="digital-image-wrap"><img src={digitalPlayUrl} alt="Children enjoying a play activity at Mura Moegi Kaziw Sagulau Playgroup" /></div>
         <div className="digital-copy">
           <p className="eyebrow"><span /> New activity category</p>
           <h2>Digital Play</h2>
@@ -591,9 +665,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="downloads-banner" style={{ backgroundImage: `url(${planningTextureUrl})` }}>
+      <section className="downloads-banner" style={{ backgroundImage: `linear-gradient(rgba(247,242,232,.88), rgba(247,242,232,.88)), url(${planningTextureUrl})` }}>
         <div><p className="eyebrow"><span /> Ready for your records</p><h2>Print a guide, checklist or completed session plan.</h2><p>Useful for facilitator folders, outreach reporting and sharing with colleagues.</p></div>
-        <div className="download-actions"><button onClick={downloadGuidePdf}><Download size={17} /> Facilitator guide</button><button onClick={downloadChecklistPdf}><Download size={17} /> Checklist</button></div>
+        <div className="download-actions"><a href={printableGuideUrl} target="_blank" rel="noreferrer"><Download size={17} /> Printable app guide</a><button onClick={downloadGuidePdf}><Download size={17} /> Session guide</button><button onClick={downloadChecklistPdf}><Download size={17} /> Checklist</button></div>
       </section>
     </>
   );
@@ -622,13 +696,13 @@ export default function Home() {
         <div className="privacy-note"><ShieldCheck size={21} /><div><strong>Keep a local record.</strong><p>When you save and download a plan, the information stays on the device you are using. Use the printed or saved PDF for your approved local reporting process.</p></div></div>
       </div>}
       {toolkitTab === "setup" && <div className="setup-layout"><article className="paper-card"><h2>Prepare a safe, welcoming space.</h2><p>Consider the physical setting, cultural appropriateness and whether families will feel comfortable spending time together there.</p><div className="risk-list">{["Space is clean and maintained", "No sharp edges or unsafe objects", "First aid kit is accessible", "Emergency exits are clear", "Shade, water and toilets are available", "Parents have a place to sit and observe"].map((item) => <div key={item}><Check size={16} />{item}</div>)}</div></article><article className="equipment-card"><h3>Materials to gather</h3><div><strong>Essential</strong><p>Play mats, age-appropriate toys, books, art materials, music, first aid and sign-in records.</p></div><div><strong>Optional</strong><p>Outdoor equipment, dress-up clothes, sand and water play, approved local resources and refreshments.</p></div><div><strong>Digital Play</strong><p>Mat for bots, instructional videos and cards, and mats and cushions for sitting.</p></div></article></div>}
-      {toolkitTab === "digital" && <div className="digital-resource-pane"><article className="digital-resource-hero"><img src={childPlayPhotoUrl} alt="Child learning through play" /><div><p className="eyebrow"><span /> Available facilitator material</p><h2>Digital Play resource pack.</h2><p>Use play-based Digital Play experiences to build early literacy, numeracy and confidence with technology. Prepare the space, use only locally approved content, and support children to explore together.</p><a className="primary-button small" href={suppliedGuideUrl} target="_blank" rel="noreferrer"><Download size={16} /> Open supplied facilitator guide</a></div></article><div className="digital-resource-cards"><article><span>01</span><h3>Set up together</h3><p>Arrange the bot mat, instructional cards, seating and cushions before children arrive. Keep space for a carer to sit alongside each child.</p></article><article><span>02</span><h3>Prompt, pause, talk</h3><p>Use one approved prompt at a time. Invite children to name, count, move and share their ideas at a comfortable pace.</p></article><article><span>03</span><h3>Close and reflect</h3><p>Finish with a shared retelling or reflection. Record what children enjoyed and any ideas for the next session.</p></article></div><div className="digital-resource-note"><ShieldCheck size={19} /><p><strong>Approved-link register ready.</strong> Dedicated slots for Mura-approved instruction-card and video links will be added when the URLs are supplied. No unapproved video is embedded.</p></div></div>}
+      {toolkitTab === "digital" && <div className="digital-resource-pane"><article className="digital-resource-hero"><img src={childPlayPhotoUrl} alt="Child learning through play" /><div><p className="eyebrow"><span /> Available facilitator material</p><h2>Digital Play resource pack.</h2><p>Use play-based Digital Play experiences to build early literacy, numeracy and confidence with technology. Prepare the space, use only locally approved content, and support children to explore together.</p><div className="resource-link-row"><a className="primary-button small" href={suppliedGuideUrl} target="_blank" rel="noreferrer"><Download size={16} /> Open supplied facilitator guide</a><a className="outline-button small" href={printableGuideUrl} target="_blank" rel="noreferrer"><Download size={16} /> Printable app guide</a></div></div></article><div className="digital-resource-cards"><article><span>01</span><h3>Set up together</h3><p>Arrange the bot mat, instructional cards, seating and cushions before children arrive. Keep space for a carer to sit alongside each child.</p></article><article><span>02</span><h3>Prompt, pause, talk</h3><p>Use one approved prompt at a time. Invite children to name, count, move and share their ideas at a comfortable pace.</p></article><article><span>03</span><h3>Close and reflect</h3><p>Finish with a shared retelling or reflection. Record what children enjoyed and any ideas for the next session.</p></article></div><div className="digital-resource-note"><ShieldCheck size={19} /><p><strong>Approved-link register ready.</strong> Dedicated slots for Mura-approved instruction-card and video links will be added when the URLs are supplied. No unapproved video is embedded.</p></div></div>}
       {toolkitTab === "checklist" && <div className="checklist-wrap"><div className="checklist-intro"><div><h2>Session checklist</h2><p>Tick items on-screen as you go, then download a printable record for your files.</p></div><button className="primary-button small" onClick={downloadChecklistPdf}><Download size={16} /> Download checklist</button></div>{checklistSections.map((section) => <article className="check-section" key={section.title}><h3>{section.title}</h3>{section.items.map((item, index) => { const key = `${section.title}-${index}`; return <label key={key} className={checklist[key] ? "checked" : ""}><input type="checkbox" checked={Boolean(checklist[key])} onChange={() => setChecklist({ ...checklist, [key]: !checklist[key] })} /><span className="box"><Check size={14} /></span><span>{item}</span></label>; })}</article>)}<button className="quiet-action" onClick={() => setChecklist({})}>Clear all checklist items</button></div>}
     </section>
   );
 
   const renderActivities = () => {
-    if (selectedActivity) return <section className="page-frame activity-detail"><button className="back-link" onClick={() => setSelectedActivity(null)}><ArrowLeft size={17} /> Back to activity library</button><div className="detail-hero"><div><p className="eyebrow"><span /> {selectedActivity.cultural ? "Cultural activity" : selectedActivity.type === "digital" ? "Digital Play" : `${selectedActivity.type} play`}</p><h1>{selectedActivity.name}</h1><p>{selectedActivity.description}</p><div className="detail-meta"><span><Clock3 size={15} /> {selectedActivity.duration} min</span><span><UsersRound size={15} /> {selectedActivity.ages}</span></div></div>{selectedActivity.type === "digital" && <img src={digitalPlayUrl} alt="Digital Play learning materials" />}</div><div className="detail-grid"><article className="paper-card"><h2>Skills this activity supports</h2><div className="focus-cloud">{selectedActivity.focus.map((item) => <span key={item}>{item}</span>)}</div></article><article className="paper-card"><h2>Materials needed</h2><ul className="tidal-list">{selectedActivity.materials.map((item) => <li key={item}>{item}</li>)}</ul></article></div><article className="instruction-card"><p className="eyebrow"><span /> Facilitation steps</p><h2>Guide the experience.</h2><ol>{selectedActivity.instructions.map((item, index) => <li key={item}><span>{String(index + 1).padStart(2, "0")}</span>{item}</li>)}</ol></article></section>;
+    if (selectedActivity) return <section className="page-frame activity-detail"><button className="back-link" onClick={() => setSelectedActivity(null)}><ArrowLeft size={17} /> Back to activity library</button><div className="detail-hero"><div><p className="eyebrow"><span /> {selectedActivity.cultural ? "Cultural activity" : selectedActivity.type === "digital" ? "Digital Play" : `${selectedActivity.type} play`}</p><h1>{selectedActivity.name}</h1><p>{selectedActivity.description}</p><div className="detail-meta"><span><Clock3 size={15} /> {selectedActivity.duration} min</span><span><UsersRound size={15} /> {selectedActivity.ages}</span></div></div>{selectedActivity.type === "digital" && <img src={digitalPlayUrl} alt="Children enjoying a play activity at Mura Moegi Kaziw Sagulau Playgroup" />}</div><div className="detail-grid"><article className="paper-card"><h2>Skills this activity supports</h2><div className="focus-cloud">{selectedActivity.focus.map((item) => <span key={item}>{item}</span>)}</div></article><article className="paper-card"><h2>Materials needed</h2><ul className="tidal-list">{selectedActivity.materials.map((item) => <li key={item}>{item}</li>)}</ul></article></div><article className="activity-facilitator-guide"><p className="eyebrow"><span /> Facilitator guide</p><h2>Before, during and after.</h2><p>Use this structured guide alongside the activity details. Adapt respectfully with local Mura guidance and the needs of children and carers in the session.</p><div className="activity-guide-grid">{facilitatorGuideStages(selectedActivity).map((stage) => <section key={stage.title}><h3>{stage.title}</h3><ol>{stage.steps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span>{step}</li>)}</ol></section>)}</div></article></section>;
     return <section className="page-frame activity-page"><div className="page-heading split-heading"><div><p className="eyebrow"><span /> Choose and adapt</p><h1>Activity library.</h1><p>Start with the needs and interests of children, carers and community. Adjust activities with appropriate local guidance.</p></div><div className="activity-count"><strong>{filteredActivities.length}</strong><span>activities ready to explore</span></div></div><div className="activity-tools"><label className="search-field"><Search size={18} /><input value={activityQuery} onChange={(event) => setActivityQuery(event.target.value)} placeholder="Search activities or skills" /></label><div className="filter-group">{(["all", "cultural", "digital", "organised", "nature", "parallel"] as const).map((type) => <button key={type} className={activityType === type ? "selected" : ""} onClick={() => setActivityType(type)}>{type === "all" ? "All activities" : type === "cultural" ? "Cultural" : type === "digital" ? "Digital Play" : type === "organised" ? "Organised" : type === "nature" ? "Nature / free play" : "Parallel play"}</button>)}</div></div><div className="activity-grid">{filteredActivities.map((activity) => <button className={`activity-card ${activity.type}`} key={activity.id} onClick={() => setSelectedActivity(activity)}><div className="activity-card-head"><span>{activity.type === "digital" ? "Digital Play" : activity.cultural ? "Cultural activity" : `${activity.type} play`}</span><span><Clock3 size={14} /> {activity.duration} min</span></div><h2>{activity.name}</h2><p>{activity.description}</p><div className="activity-card-foot"><span>{activity.ages}</span><ChevronRight size={18} /></div></button>)}</div></section>;
   };
 
@@ -640,11 +714,11 @@ export default function Home() {
     return <section className="page-frame planner-page"><div className="page-heading split-heading"><div><p className="eyebrow"><span /> Plan, save, download</p><h1>Session planner.</h1><p>Create a local plan, record attendance and reflection, then download it straight to the device for your approved reporting process.</p></div><button className="primary-button" onClick={() => setEditingPlan(createEmptyPlan())}><Plus size={18} /> Create a session plan</button></div><div className="privacy-note planner-privacy"><ShieldCheck size={21} /><div><strong>Local first.</strong><p>Saved plans are stored in this browser on this device. Download the PDF to keep a working copy for outreach reporting or printing.</p></div></div>{plans.length === 0 ? <div className="empty-plans"><FileText size={38} /><h2>No saved session plans yet.</h2><p>Start with the community name, session time and one activity. You can build from there.</p><button className="outline-button" onClick={() => setEditingPlan(createEmptyPlan())}>Create your first plan <ChevronRight size={16} /></button></div> : <div className="saved-plan-grid">{plans.map((plan) => <article key={plan.id} className="saved-plan-card"><div className="saved-plan-date">{new Date(plan.createdAt).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" })}</div><h2>{plan.name}</h2><p>{plan.communityName || "Community not specified"} <span>·</span> {plan.sessionTime || "Time not specified"}</p><div className="saved-plan-stats"><span><Sparkles size={15} /> {planActivities(plan).length} activities</span><span><Clock3 size={15} /> {planDuration(plan)} min</span></div><div className="saved-plan-actions"><button onClick={() => setEditingPlan(plan)}>Open plan</button><button aria-label={`Download ${plan.name}`} onClick={() => downloadPlanPdf(plan)}><Download size={17} /></button><button aria-label={`Delete ${plan.name}`} onClick={() => { if (window.confirm(`Delete ${plan.name}?`)) setPlans(plans.filter((item) => item.id !== plan.id)); }}><Trash2 size={17} /></button></div></article>)}</div>}</section>;
   };
 
-  const pageContent = page === "home" ? renderHome() : page === "learn" ? renderLearn() : page === "toolkit" ? renderToolkit() : page === "activities" ? renderActivities() : renderPlanner();
+  const pageContent = page === "home" ? renderHome() : page === "learn" ? renderLearn() : page === "toolkit" ? renderToolkit() : page === "activities" ? renderActivities() : page === "promotional" ? renderPromotional() : renderPlanner();
 
   if (page === "home") {
-    return <div className="legacy-home-shell"><header className="legacy-header"><div className="legacy-container"><div className="legacy-header-content"><img src={legacyLogoUrl} alt="Mipla Playgroup logo" /><div><h1>Mipla Playgroup</h1><p>Thursday Island · Torres Strait</p></div></div><nav aria-label="Original Mipla Playgroup navigation">{navItems.map((item) => <button key={item.id} className={item.id === "home" ? "active" : ""} onClick={() => navigate(item.id)}>{item.id === "home" ? "Home" : item.id === "learn" ? "Learn" : item.id === "toolkit" ? "Toolkit" : item.id === "activities" ? "Activities" : "Planner"}</button>)}</nav></div></header><main className="legacy-main"><div className="legacy-container"><section className="legacy-hero"><div><h2>Welcome to Mipla Playgroup</h2><p>Your guide to running culturally relevant playgroups for children aged 0–4 on Thursday Island, Torres Strait.</p></div></section><section className="legacy-grid"><button onClick={() => navigate("learn")}><span>📚</span><h2>Learn About Playgroups</h2><p>Understand what playgroups are, why play is important, and the benefits for children and families.</p><strong>Explore →</strong></button><button onClick={() => navigate("toolkit")}><span>🛠️</span><h2>Facilitator Toolkit</h2><p>Step-by-step guides, checklists, and resources for setting up and running playgroup sessions.</p><strong>Explore →</strong></button><button onClick={() => navigate("activities")}><span>✨</span><h2>Activity Library</h2><p>Browse activities including cultural activities, organised play, nature-based learning and Digital Play.</p><strong>Explore →</strong></button><button onClick={() => navigate("planner")}><span>📅</span><h2>Session Planner</h2><p>Plan your playgroup sessions using the Start–Middle–End structure and save them for later.</p><strong>Explore →</strong></button></section></div></main><footer className="legacy-footer"><div className="legacy-container"><p>Mipla Playgroup · Thursday Island, Torres Strait – Supporting children aged 0–4</p><p>Developed in partnership with Mura Kosker Sorority Inc., James Cook University, Lowitja Institute / Starlight Children’s Foundation Australia.</p><p>Researcher: Dr Vinnitta Mosby</p></div></footer></div>;
+    return <div className="legacy-home-shell"><header className="legacy-header"><div className="legacy-container"><div className="legacy-header-content"><span className="legacy-brand-mark" aria-hidden="true">MMKSP</span><div><h1>{BRAND}</h1><p>Torres Strait</p></div></div><nav aria-label="Mura Moegi Kaziw Sagulau Playgroup navigation">{navItems.map((item) => <button key={item.id} className={item.id === "home" ? "active" : ""} onClick={() => navigate(item.id)}>{item.id === "home" ? "Home" : item.id === "learn" ? "Learn" : item.id === "toolkit" ? "Toolkit" : item.id === "activities" ? "Activities" : "Planner"}</button>)}</nav></div></header><main className="legacy-main"><div className="legacy-container"><section className="legacy-hero"><img src={landingPhotoUrl} alt="Children and carer participating in a play activity" /><div><p className="legacy-hero-kicker">Torres Strait facilitator resource</p><h2>Shape a session that starts with your community.</h2><p>Practical planning, activity ideas and download-ready records for children aged 0–4 across the Torres Strait.</p></div></section><section className="legacy-grid"><button onClick={() => navigate("learn")}><BookOpen className="legacy-card-icon" aria-hidden="true" /><h2>Learn About Playgroups</h2><p>Understand what playgroups are, why play is important, and the benefits for children and families.</p><strong>Explore →</strong></button><button onClick={() => navigate("toolkit")}><ClipboardCheck className="legacy-card-icon" aria-hidden="true" /><h2>Facilitator Toolkit</h2><p>Step-by-step guides, checklists, and resources for setting up and running playgroup sessions.</p><strong>Explore →</strong></button><button onClick={() => navigate("activities")}><Sparkles className="legacy-card-icon" aria-hidden="true" /><h2>Activity Library</h2><p>Browse activities including cultural activities, organised play, nature-based learning and Digital Play.</p><strong>Explore →</strong></button><button onClick={() => navigate("planner")}><FileText className="legacy-card-icon" aria-hidden="true" /><h2>Session Planner</h2><p>Plan your playgroup sessions using the Start–Middle–End structure and save them for later.</p><strong>Explore →</strong></button></section><section className="legacy-qr-card"><div className="legacy-qr-image">{qrUrl && <img src={qrUrl} alt="QR code linking to Mura Kosker Promotional Material" />}</div><div><p>Community access</p><h2>Mura Kosker Promotional Material</h2><p>Share this QR code on approved promotional material so staff and community can access the Playgroup website.</p><button onClick={downloadQrCode}>Download QR code</button></div></section></div></main><footer className="legacy-footer"><div className="legacy-container"><p>{BRAND} · Torres Strait – Supporting children aged 0–4</p><p>Developed in partnership with Mura Kosker Sorority Inc., James Cook University, Lowitja Institute / Starlight Children’s Foundation Australia.</p><p>Researcher: Dr Vinnitta Mosby</p></div></footer></div>;
   }
 
-  return <div className="app-shell"><aside className={`side-nav ${menuOpen ? "open" : ""}`}><div className="brand-lockup"><img src={logoUrl} alt="Mura Moegi Kaziw Sagulau Playgroup symbol" /><div><strong>Mura Moegi<br />Kaziw Sagulau</strong><span>Playgroup</span></div></div><nav aria-label="Main navigation">{navItems.map((item) => { const Icon = item.icon; return <button key={item.id} className={page === item.id ? "active" : ""} onClick={() => navigate(item.id)}><Icon size={18} /><span>{item.label}</span><ChevronRight size={15} /></button>; })}</nav><div className="side-bottom"><button onClick={downloadGuidePdf}><BookOpen size={17} /> Print facilitator guide</button><div className="brand-note"><span className="tide-dot" /> Torres Strait resource</div></div></aside><div className="site-main"><header className="mobile-header"><button onClick={() => setMenuOpen(!menuOpen)} aria-label="Open navigation"><Menu size={22} /></button><div className="mobile-brand"><img src={logoUrl} alt="" /><span>MMKSP</span></div><button onClick={() => navigate("planner")} aria-label="Open session planner"><FileText size={21} /></button></header><main><div className="resource-masthead"><div><img src={logoUrl} alt="" /><span>{BRAND}</span></div><p><span className="masthead-dot" /> {plans.length} local {plans.length === 1 ? "plan" : "plans"} saved</p><button onClick={() => navigate("planner")}><FileText size={15} /> Open planner</button></div>{pageContent}</main><footer><div><img src={logoUrl} alt="" /><p><strong>{BRAND}</strong><span>Torres Strait playgroup facilitator resource</span></p></div><p>Developed in partnership with Mura Kosker Sorority Inc., James Cook University and Lowitja Institute / Starlight Children’s Foundation Australia. <br />Researcher: Dr Vinnitta Mosby</p><div className="footer-actions"><button onClick={downloadGuidePdf}><Download size={15} /> Guide</button><button onClick={downloadChecklistPdf}><Download size={15} /> Checklist</button></div></footer></div><aside className="facilitator-strip" aria-label="Facilitator quick actions"><div className="strip-symbol"><img src={logoUrl} alt="" /></div><button title="Open session planner" onClick={() => navigate("planner")}><FileText size={18} /><span>Plan</span></button><button title="Download facilitator guide" onClick={downloadGuidePdf}><BookOpen size={18} /><span>Guide</span></button><button title="Download facilitator checklist" onClick={downloadChecklistPdf}><ClipboardCheck size={18} /><span>Checklist</span></button><button title="Download access QR code" onClick={downloadQrCode}><QrCode size={18} /><span>QR</span></button><div className="strip-tide"><i /><i /><i /></div></aside>{menuOpen && <button className="nav-scrim" aria-label="Close navigation" onClick={() => setMenuOpen(false)} />}<button className="qr-float" onClick={downloadQrCode} title="Download access QR code"><QrCode size={20} /><span>QR access</span></button>{qrUrl && <div className="qr-preview" aria-hidden="true"><img src={qrUrl} alt="" /><span>Scan for access</span></div>}</div>;
+  return <div className="app-shell"><aside className={`side-nav ${menuOpen ? "open" : ""}`}><div className="brand-lockup"><span className="text-brand-mark" aria-hidden="true">MMKSP</span><div><strong>Mura Moegi<br />Kaziw Sagulau</strong><span>Playgroup</span></div></div><nav aria-label="Main navigation">{navItems.map((item) => { const Icon = item.icon; return <button key={item.id} className={page === item.id ? "active" : ""} onClick={() => navigate(item.id)}><Icon size={18} /><span>{item.label}</span><ChevronRight size={15} /></button>; })}</nav><div className="side-bottom"><button onClick={downloadGuidePdf}><BookOpen size={17} /> Print facilitator guide</button><div className="brand-note"><span className="tide-dot" /> Torres Strait resource</div></div></aside><div className="site-main"><header className="mobile-header"><button onClick={() => setMenuOpen(!menuOpen)} aria-label="Open navigation"><Menu size={22} /></button><div className="mobile-brand"><span>MMKSP</span></div><button onClick={() => navigate("planner")} aria-label="Open session planner"><FileText size={21} /></button></header><main><div className="resource-masthead"><div><span>{BRAND}</span></div><p><span className="masthead-dot" /> {plans.length} local {plans.length === 1 ? "plan" : "plans"} saved</p><button onClick={() => navigate("planner")}><FileText size={15} /> Open planner</button></div>{pageContent}</main><footer><div><span className="footer-brand-mark">MMKSP</span><p><strong>{BRAND}</strong><span>Torres Strait playgroup facilitator resource</span></p></div><p>Developed in partnership with Mura Kosker Sorority Inc., James Cook University and Lowitja Institute / Starlight Children’s Foundation Australia. <br />Researcher: Dr Vinnitta Mosby</p><div className="footer-actions"><button onClick={downloadGuidePdf}><Download size={15} /> Guide</button><button onClick={downloadChecklistPdf}><Download size={15} /> Checklist</button></div></footer></div><aside className="facilitator-strip" aria-label="Facilitator quick actions"><div className="strip-symbol">MMKSP</div><button title="Open session planner" onClick={() => navigate("planner")}><FileText size={18} /><span>Plan</span></button><button title="Download facilitator guide" onClick={downloadGuidePdf}><BookOpen size={18} /><span>Guide</span></button><button title="Download facilitator checklist" onClick={downloadChecklistPdf}><ClipboardCheck size={18} /><span>Checklist</span></button><button title="Download promotional QR code" onClick={downloadQrCode}><QrCode size={18} /><span>QR</span></button><div className="strip-tide"><i /><i /><i /></div></aside>{menuOpen && <button className="nav-scrim" aria-label="Close navigation" onClick={() => setMenuOpen(false)} />}<button className="qr-float" onClick={downloadQrCode} title="Download promotional QR code"><QrCode size={20} /><span>QR access</span></button>{qrUrl && <div className="qr-preview" aria-hidden="true"><img src={qrUrl} alt="" /><span>Mura Kosker Promotional Material</span></div>}</div>;
 }
