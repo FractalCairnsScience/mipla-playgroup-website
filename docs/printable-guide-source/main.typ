@@ -14,7 +14,7 @@
   numbering: none,
   header: none,
   footer: partner-footer(show-page: false),
-  background: place(right + bottom, image("brand-assets/dot-purple-watermark.png", width: 6.6cm)),
+  background: place(right + bottom, image("brand-assets/dot-purple-watermark.png", width: 10.5cm)),
 )[
   #align(center)[
     #image("brand-assets/mura-kosker-logo.png", width: 21%)
@@ -37,7 +37,7 @@
   numbering: none,
   header: none,
   footer: partner-footer(show-page: false),
-  background: place(right + bottom, image("brand-assets/dot-blue-watermark.png", width: 5.6cm)),
+  background: place(right + bottom, image("brand-assets/dot-blue-watermark.png", width: 10.5cm)),
 )[
   #align(right)[#image("brand-assets/mura-kosker-logo.png", width: 1.25cm)]
   #v(-0.6em)
@@ -268,7 +268,7 @@ Each activity includes a short description, materials list and a before–during
 
 #pagebreak()
 
-#set page(background: place(right + bottom, image("brand-assets/dot-lime-watermark.png", width: 5.6cm)))
+#set page(background: place(right + bottom, image("brand-assets/dot-lime-watermark.png", width: 10.5cm)))
 
 = Facilitator notes
 
@@ -332,7 +332,7 @@ Keep printed materials and downloaded plans in accordance with Mura Kosker Soror
 
 #pagebreak()
 
-#set page(background: place(right + bottom, image("brand-assets/dot-sunshine-watermark.png", width: 5.6cm)))
+#set page(background: place(right + bottom, image("brand-assets/dot-sunshine-watermark.png", width: 10.5cm)))
 
 = Appendix: Facilitator checklist
 

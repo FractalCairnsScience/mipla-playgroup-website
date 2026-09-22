@@ -88,7 +88,7 @@
     numbering: "1",
     background: place(
       right + bottom,
-      image("brand-assets/dot-teal-watermark.png", width: 5.6cm),
+      image("brand-assets/dot-teal-watermark.png", width: 10.5cm),
     ),
     header: if running-header {
       context {
