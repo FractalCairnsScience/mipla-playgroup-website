@@ -16,9 +16,9 @@
     column-gutter: 0.22cm,
     align: center,
     [],
-    image("brand-assets/jcu-logo.jpg", height: 0.56cm),
-    image("brand-assets/lowitja-logo.jpg", height: 0.56cm),
-    image("brand-assets/starlight-logo.jpg", height: 0.56cm),
+    image("brand-assets/jcu-logo.jpg", height: 0.73cm),
+    image("brand-assets/lowitja-logo.jpg", height: 0.73cm),
+    image("brand-assets/starlight-logo.jpg", height: 0.73cm),
     if show-page { align(right)[#counter(page).display()] } else { [] },
   )
 }
