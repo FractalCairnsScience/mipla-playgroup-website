@@ -67,13 +67,13 @@ const STORAGE_KEY = "mmksp-session-plans-v1";
 const CHECKLIST_KEY = "mmksp-facilitator-checklist-v1";
 const landingPhotoUrl = "/manus-storage/beading-time_19b1ea9c.webp";
 const heroUrl = "/manus-storage/drawing-time_da4bc67f.png";
-const digitalPlayUrl = "/manus-storage/pasted_file_ZiBVkH_image_fc53967c.png";
+const digitalPlayUrl = "/manus-storage/digital-play-robots-header_8f1d801b.png";
 const planningTextureUrl = "/manus-storage/drawing-time_da4bc67f.png";
 const playgroupPhotoUrl = "/manus-storage/beading-time_19b1ea9c.webp";
 const childPlayPhotoUrl = "/manus-storage/toddler-play_b22b4bba.png";
 const weavingPhotoUrl = "/manus-storage/weaving-time_3fcd5728.jpg";
 const suppliedGuideUrl = "/manus-storage/MMKS-facilitators-guide_37dfecf7.pdf";
-const printableGuideUrl = "/manus-storage/main_d0f52e85.pdf";
+const printableGuideUrl = "/manus-storage/main_82e05c89.pdf";
 
 const navItems: { id: Page; label: string; icon: typeof BookOpen }[] = [
   { id: "home", label: "Overview", icon: LayoutGrid },
@@ -597,8 +597,14 @@ export default function Home() {
     doc.text("Session name:", 14, 62);
     doc.text("Community:", 14, 76);
     doc.text("Date and time:", 14, 90);
-    doc.text("What worked well, what children enjoyed, and next steps:", 14, 108);
-    [120, 132, 144, 156, 168, 180, 192, 204, 216, 228, 240, 252, 264].forEach((line) => doc.line(14, line, 196, line));
+    doc.text("Children attending:", 14, 104);
+    doc.text("Age of Children attending:", 14, 118);
+    doc.text("Carers attending:", 14, 132);
+    doc.text("Visiting partners/invited guests:", 14, 146);
+    doc.text("Additional Notes", 14, 160);
+    [168, 180, 192].forEach((line) => doc.line(14, line, 196, line));
+    doc.text("Facilitator reflection and next step:", 14, 208);
+    [216, 228, 240, 252, 264].forEach((line) => doc.line(14, line, 196, line));
     doc.save("mmksp-facilitator-guide.pdf");
   };
 
@@ -702,7 +708,7 @@ export default function Home() {
   );
 
   const renderActivities = () => {
-    if (selectedActivity) return <section className="page-frame activity-detail"><button className="back-link" onClick={() => setSelectedActivity(null)}><ArrowLeft size={17} /> Back to activity library</button><div className="detail-hero"><div><p className="eyebrow"><span /> {selectedActivity.cultural ? "Cultural activity" : selectedActivity.type === "digital" ? "Digital Play" : `${selectedActivity.type} play`}</p><h1>{selectedActivity.name}</h1><p>{selectedActivity.description}</p><div className="detail-meta"><span><Clock3 size={15} /> {selectedActivity.duration} min</span><span><UsersRound size={15} /> {selectedActivity.ages}</span></div></div>{selectedActivity.type === "digital" && <img src={digitalPlayUrl} alt="Two programmable robots on a colourful learning mat for Digital Play" />}</div><div className="detail-grid"><article className="paper-card"><h2>Skills this activity supports</h2><div className="focus-cloud">{selectedActivity.focus.map((item) => <span key={item}>{item}</span>)}</div></article><article className="paper-card"><h2>Materials needed</h2><ul className="tidal-list">{selectedActivity.materials.map((item) => <li key={item}>{item}</li>)}</ul></article></div><article className="activity-facilitator-guide"><p className="eyebrow"><span /> Facilitator guide</p><h2>Before, during and after.</h2><p>Use this structured guide alongside the activity details. Adapt respectfully with local Mura guidance and the needs of children and carers in the session.</p><div className="activity-guide-grid">{facilitatorGuideStages(selectedActivity).map((stage) => <section key={stage.title}><h3>{stage.title}</h3><ol>{stage.steps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span>{step}</li>)}</ol></section>)}</div></article></section>;
+    if (selectedActivity) return <section className="page-frame activity-detail"><button className="back-link" onClick={() => setSelectedActivity(null)}><ArrowLeft size={17} /> Back to activity library</button><div className="detail-hero"><div><p className="eyebrow"><span /> {selectedActivity.cultural ? "Cultural activity" : selectedActivity.type === "digital" ? "Digital Play" : `${selectedActivity.type} play`}</p><h1>{selectedActivity.name}</h1><p>{selectedActivity.description}</p><div className="detail-meta"><span><Clock3 size={15} /> {selectedActivity.duration} min</span><span><UsersRound size={15} /> {selectedActivity.ages}</span></div></div></div>{selectedActivity.type === "digital" && <img className="digital-play-hero-image" src={digitalPlayUrl} alt="Two programmable robots on a colourful learning mat for Digital Play" />}<div className="detail-grid"><article className="paper-card"><h2>Skills this activity supports</h2><div className="focus-cloud">{selectedActivity.focus.map((item) => <span key={item}>{item}</span>)}</div></article><article className="paper-card"><h2>Materials needed</h2><ul className="tidal-list">{selectedActivity.materials.map((item) => <li key={item}>{item}</li>)}</ul></article></div><article className="activity-facilitator-guide"><p className="eyebrow"><span /> Facilitator guide</p><h2>Before, during and after.</h2><p>Use this structured guide alongside the activity details. Adapt respectfully with local Mura guidance and the needs of children and carers in the session.</p><div className="activity-guide-grid">{facilitatorGuideStages(selectedActivity).map((stage) => <section key={stage.title}><h3>{stage.title}</h3><ol>{stage.steps.map((step, index) => <li key={step}><span>{String(index + 1).padStart(2, "0")}</span>{step}</li>)}</ol></section>)}</div></article></section>;
     return <section className="page-frame activity-page"><div className="page-heading split-heading"><div><p className="eyebrow"><span /> Choose and adapt</p><h1>Activity library.</h1><p>Start with the needs and interests of children, carers and community. Adjust activities with appropriate local guidance.</p></div><div className="activity-count"><strong>{filteredActivities.length}</strong><span>activities ready to explore</span></div></div><div className="activity-tools"><label className="search-field"><Search size={18} /><input value={activityQuery} onChange={(event) => setActivityQuery(event.target.value)} placeholder="Search activities or skills" /></label><div className="filter-group">{(["all", "cultural", "digital", "organised", "nature", "parallel"] as const).map((type) => <button key={type} className={activityType === type ? "selected" : ""} onClick={() => setActivityType(type)}>{type === "all" ? "All activities" : type === "cultural" ? "Cultural" : type === "digital" ? "Digital Play" : type === "organised" ? "Organised" : type === "nature" ? "Nature / free play" : "Parallel play"}</button>)}</div></div><div className="activity-grid">{filteredActivities.map((activity) => <button className={`activity-card ${activity.type}`} key={activity.id} onClick={() => setSelectedActivity(activity)}><div className="activity-card-head"><span>{activity.type === "digital" ? "Digital Play" : activity.cultural ? "Cultural activity" : `${activity.type} play`}</span><span><Clock3 size={14} /> {activity.duration} min</span></div><h2>{activity.name}</h2><p>{activity.description}</p><div className="activity-card-foot"><span>{activity.ages}</span><ChevronRight size={18} /></div></button>)}</div></section>;
   };
 
