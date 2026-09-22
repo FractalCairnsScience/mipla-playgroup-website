@@ -9,6 +9,20 @@
 #let report-lime = rgb("#9dbb3d")
 #let report-paper = rgb("#fffdf8")
 
+#let partner-footer(show-page: true) = context {
+  set text(size: 7pt, fill: luma(110))
+  grid(
+    columns: (1fr, auto, auto, auto, 1fr),
+    column-gutter: 0.22cm,
+    align: center,
+    [],
+    image("brand-assets/jcu-logo.jpg", height: 0.43cm),
+    image("brand-assets/lowitja-logo.jpg", height: 0.43cm),
+    image("brand-assets/starlight-logo.jpg", height: 0.43cm),
+    if show-page { align(right)[#counter(page).display()] } else { [] },
+  )
+}
+
 // Relative rhythm values use B = body-size.
 // report = user-selected R4 chapter-emphasis profile.
 // longform = user-selected T1 no-indent longform profile.
@@ -94,6 +108,7 @@
     } else {
       none
     },
+    footer: if running-header { partner-footer() } else { none },
   )
 
   set text(

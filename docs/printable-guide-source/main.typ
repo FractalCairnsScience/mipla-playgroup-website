@@ -1,6 +1,6 @@
 // Printable facilitator guide for Mura Moegi Kaziw Sagulau Playgroup.
 // Uses only a user-supplied Playgroup photograph and follows the app activity order.
-#import "report-theme.typ": report-accent, report-theme
+#import "report-theme.typ": partner-footer, report-accent, report-theme
 
 #show: report-theme.with(
   title: "Mura Moegi Kaziw Sagulau Playgroup",
@@ -10,9 +10,10 @@
 )
 
 #page(
-  margin: (top: 18%, x: 2.2cm),
+  margin: (top: 18%, bottom: 2.5cm, x: 2.2cm),
   numbering: none,
   header: none,
+  footer: partner-footer(show-page: false),
   background: place(right + bottom, image("brand-assets/dot-purple-watermark.png", width: 6.6cm)),
 )[
   #align(center)[
@@ -23,18 +24,19 @@
     #text(size: 25pt, weight: "bold", fill: report-accent)[Mura Moegi Kaziw Sagulau Playgroup]
     #v(0.5em)
     #text(size: 14pt, fill: luma(80))[Facilitator guide and activity library — Torres Strait]
-    #v(1.5em)
+    #v(0.65em)
+    #text(size: 8.5pt, fill: luma(115))[Version 2026.09.22 · 22 September 2026]
+    #v(1.1em)
     #line(length: 40%, stroke: 0.5pt + luma(160))
-    #v(1.5em)
+    #v(1.1em)
     #text(size: 10pt)[A print-ready companion to the Playgroup website.]
-    #v(0.6em)
-    #text(size: 9pt, fill: luma(100))[Prepared for Mura Kosker Sorority Inc.]
   ]
 ]
 
 #page(
   numbering: none,
   header: none,
+  footer: partner-footer(show-page: false),
   background: place(right + bottom, image("brand-assets/dot-blue-watermark.png", width: 5.6cm)),
 )[
   #align(right)[#image("brand-assets/mura-kosker-logo.png", width: 1.25cm)]

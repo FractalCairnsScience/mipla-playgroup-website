@@ -1,0 +1,17 @@
+{
+  "task_kind": "existing-typst",
+  "output": "pdf",
+  "signals": ["existing facilitator guide", "Mura Kosker visual identity", "printable session record"],
+  "hard_constraints": [
+    "Place the supplied Mura Kosker Sorority logo on every guide page",
+    "Place supplied JCU, Lowitja Institute and Starlight Children's Foundation Australia logos in a footer on every guide page",
+    "Use supplied dot motifs as enlarged low-opacity background watermarks",
+    "Add version 2026.09.22 and the date 22 September 2026 to the cover",
+    "Preserve all guide content and append the supplied facilitator checklist"
+  ],
+  "content_features": {
+    "code_blocks": 0,
+    "defined_terms": 0,
+    "portrait_images": 10
+  }
+}
