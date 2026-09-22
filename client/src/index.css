@@ -71,27 +71,32 @@ footer { background: var(--ink); color: #f9f4e9; padding: 30px clamp(36px, 7vw, 
 @media (max-width: 700px) { .promotional-page { padding-top: 42px; }.promotional-page>h1 { font-size: 43px; }.promotional-qr { grid-template-columns: 1fr; gap: 22px; padding: 22px; }.promotional-qr img { max-width: 300px; margin: 0 auto; }.promotional-qr h2 { font-size: 33px; } }
 
 
-/* Digital Play header image: compact, cropped robot focus in the approved upper-right position. */
+/* Digital Play header image: enlarged 15% and placed in its own header column, clear of the dot artwork. */
 .activity-detail { position: relative; }
+.activity-detail.digital-activity-detail { background-position: calc(100% - 20px) 330px; }
+.digital-detail-hero {
+  grid-template-columns: minmax(0, 1fr) clamp(190px, 19.55vw, 253px);
+  column-gap: clamp(30px, 4vw, 52px);
+  align-items: start;
+}
 .digital-play-hero-image {
-  position: absolute;
-  top: 42px;
-  right: clamp(36px, 7vw, 108px);
-  width: clamp(165px, 17vw, 220px);
+  position: static;
+  width: 100%;
   aspect-ratio: 4 / 3;
   display: block;
   object-fit: cover;
   object-position: center;
+  margin-top: 3px;
   border: 5px solid #fffdfa;
   border-radius: 3px;
   box-shadow: 0 12px 24px rgba(20, 43, 44, .16);
 }
+.toolkit-logo-eyebrow { display: flex; align-items: center; min-height: 54px; margin: 0 0 12px; }
+.toolkit-logo-eyebrow img { width: 54px; height: 54px; display: block; object-fit: contain; background: #fffdfa; border-radius: 50%; padding: 2px; box-shadow: 0 4px 12px rgba(20, 43, 44, .11); }
 @media (max-width: 760px) {
-  .digital-play-hero-image {
-    position: static;
-    width: min(100%, 260px);
-    margin: 0 0 24px auto;
-  }
+  .activity-detail.digital-activity-detail { background-position: calc(100% + 20px) 310px; }
+  .digital-detail-hero { grid-template-columns: 1fr; }
+  .digital-play-hero-image { width: min(100%, 299px); margin: 0 0 8px auto; }
 }
 
 
