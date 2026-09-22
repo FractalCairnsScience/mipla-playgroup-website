@@ -713,7 +713,7 @@ export default function Home() {
 
   const renderLearn = () => (
     <section className="page-frame learning-page">
-      <div className="page-heading"><p className="eyebrow"><span /> The foundations</p><h1>Learn about playgroups.</h1><p>Playgroups are regular gatherings where families with young children can play, learn and connect in a relaxed, welcoming setting.</p></div>
+      <div className="page-heading"><p className="eyebrow"><span /> The foundations</p><h1>What playgroup makes possible?</h1><p>Playgroups are regular gatherings where families with young children can play, learn and connect in a relaxed, welcoming setting.</p></div>
       <div className="learning-columns">
         <article className="paper-card large-note"><span className="note-index">01</span><h2>What a playgroup makes possible</h2><p>Through a mix of free play, structured experiences and social time, children develop confidence and skills while carers connect with community, share ideas and build supportive relationships.</p><p>Each session can take a shape that fits the community, the families present and the local setting.</p></article>
         <article className="paper-card"><span className="note-index">02</span><h3>Children learn through play</h3><ul className="tidal-list"><li>Social connection and turn taking</li><li>Language, stories and early communication</li><li>Fine and gross motor skills</li><li>Problem-solving, creativity and discovery</li></ul></article>
