@@ -9,7 +9,12 @@
   running-header: true,
 )
 
-#page(margin: (top: 18%, x: 2.2cm), numbering: none, header: none)[
+#page(
+  margin: (top: 18%, x: 2.2cm),
+  numbering: none,
+  header: none,
+  background: place(right + bottom, image("brand-assets/dot-purple-watermark.png", width: 6.6cm)),
+)[
   #align(center)[
     #image("brand-assets/mura-kosker-logo.png", width: 21%)
     #v(0.5em)
@@ -24,17 +29,17 @@
     #text(size: 10pt)[A print-ready companion to the Playgroup website.]
     #v(0.6em)
     #text(size: 9pt, fill: luma(100))[Prepared for Mura Kosker Sorority Inc.]
-    #v(0.8em)
-    #image("brand-assets/dot-purple.png", width: 13%)
   ]
 ]
 
-#page(numbering: none, header: none)[
+#page(
+  numbering: none,
+  header: none,
+  background: place(right + bottom, image("brand-assets/dot-blue-watermark.png", width: 5.6cm)),
+)[
   #align(right)[#image("brand-assets/mura-kosker-logo.png", width: 1.25cm)]
   #v(-0.6em)
   #outline(title: [Contents], indent: 1.4em)
-  #v(1.5em)
-  #align(right)[#image("brand-assets/dot-blue.png", width: 2cm)]
 ]
 
 #counter(page).update(1)
@@ -261,10 +266,9 @@ Each activity includes a short description, materials list and a before–during
 
 #pagebreak()
 
-= Facilitator notes
+#set page(background: place(right + bottom, image("brand-assets/dot-lime-watermark.png", width: 5.6cm)))
 
-#align(right)[#image("brand-assets/dot-lime.png", width: 1.45cm)]
-#v(-1.65em)
+= Facilitator notes
 
 Use these pages for local planning, follow-up and reflections. Record only information needed for the approved local process.
 
@@ -326,9 +330,8 @@ Keep printed materials and downloaded plans in accordance with Mura Kosker Soror
 
 #pagebreak()
 
-= Appendix: Facilitator checklist
+#set page(background: place(right + bottom, image("brand-assets/dot-sunshine-watermark.png", width: 5.6cm)))
 
-#align(right)[#image("brand-assets/dot-sunshine.png", width: 1.4cm)]
-#v(-1.7em)
+= Appendix: Facilitator checklist
 
 #align(center)[#image("brand-assets/checklist-appendix.png", width: 87%)]

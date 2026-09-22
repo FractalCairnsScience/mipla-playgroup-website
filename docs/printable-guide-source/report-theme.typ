@@ -72,7 +72,10 @@
     margin: (top: 2.5cm, bottom: 2.5cm, x: 2.2cm),
     fill: report-paper,
     numbering: "1",
-    background: place(right + bottom, image("brand-assets/dot-teal.png", width: 2.35cm)),
+    background: place(
+      right + bottom,
+      image("brand-assets/dot-teal-watermark.png", width: 5.6cm),
+    ),
     header: if running-header {
       context {
         if counter(page).get().first() > 0 {
