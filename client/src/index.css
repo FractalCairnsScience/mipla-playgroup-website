@@ -363,3 +363,23 @@ footer { background: var(--ink); color: #f9f4e9; padding: 30px clamp(36px, 7vw, 
 .legacy-footer .footer-acknowledgements p {
   color: #536c76;
 }
+/* Shared-device privacy status after a plan or checklist download. */
+.privacy-clear-status {
+  max-width: 850px;
+  margin: -18px 0 24px;
+  padding: 12px 16px;
+  border-left: 4px solid var(--mura-dove-blue, var(--reef-deep));
+  background: #edf5fb;
+  color: #174b78;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+.checklist-wrap .privacy-clear-status {
+  margin: 0 0 18px;
+}
+@media (max-width: 540px) {
+  .privacy-clear-status {
+    margin-top: -10px;
+  }
+}

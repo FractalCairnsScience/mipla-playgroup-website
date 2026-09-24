@@ -6,8 +6,9 @@
     "Place the supplied Mura Kosker Sorority logo on every guide page",
     "Place supplied JCU, Lowitja Institute and Starlight Children's Foundation Australia logos in a footer on every guide page",
     "Use supplied dot motifs as enlarged low-opacity background watermarks",
-    "Add version 2026.09.22 and the date 22 September 2026 to the cover",
-    "Preserve all guide content and append the supplied facilitator checklist"
+    "Add version 2026.09.24 and the date 24 September 2026 to the cover",
+    "Preserve all guide content and append the supplied facilitator checklist",
+    "Explain automatic clearing of browser-held plans and checklist ticks after downloads"
   ],
   "content_features": {
     "code_blocks": 0,

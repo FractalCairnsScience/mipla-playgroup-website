@@ -25,7 +25,7 @@
     #v(0.5em)
     #text(size: 14pt, fill: luma(80))[Facilitator guide and activity library — Torres Strait]
     #v(0.65em)
-    #text(size: 8.5pt, fill: luma(115))[Version 2026.09.22 · 22 September 2026]
+    #text(size: 8.5pt, fill: luma(115))[Version 2026.09.24 · 24 September 2026]
     #v(1.1em)
     #line(length: 40%, stroke: 0.5pt + luma(160))
     #v(1.1em)
@@ -50,7 +50,7 @@
 
 The Playgroup website is a practical resource for planning culturally relevant sessions for children aged 0–4, their carers and communities across the Torres Strait. It is organised in the same order as this printed guide: learn about playgroups, prepare through the facilitator toolkit, select an activity, plan the session, then record reflection and reporting information.
 
-The website keeps saved session plans in the browser on the device being used. It does not send the saved plan to the website. When a facilitator chooses *Download PDF*, the completed plan is created and saved directly to that outreach computer. Keep the downloaded file and any printed copy in line with Mura Kosker Sorority Inc. procedures.
+While a facilitator is working, saved session plans and completed checklist items are held only in the browser on that device; they are not sent to the website. When a facilitator chooses *Download PDF* for a session plan, all saved session plans are automatically cleared from that browser after the download starts. When a facilitator chooses *Download checklist*, all completed checklist items are automatically cleared in the same way. The downloaded file is created directly on the outreach computer. Keep the downloaded file and any printed copy in line with Mura Kosker Sorority Inc. procedures, and manage files left in the device’s Downloads folder before the next facilitator uses it.
 
 == Session rhythm
 
@@ -62,7 +62,7 @@ The website keeps saved session plans in the browser on the device being used. I
 
 == Planning and reflection
 
-For each session, enter a session name, community name and session time. Add activities to the Start, Middle or End stage. After the session, record the number of children and carers attending, children’s engagement, emerging learning or interests, and one facilitator reflection or next step. Download the plan when the record is complete.
+For each session, enter a session name, community name and session time. Add activities to the Start, Middle or End stage. After the session, record the number of children and carers attending, children’s engagement, emerging learning or interests, and one facilitator reflection or next step. Download the plan when the record is complete. The website then clears all saved plans from the browser on that device, so the next facilitator cannot view the prior facilitator’s plan in the website.
 
 == Cultural care
 
@@ -328,7 +328,7 @@ Use these pages for local planning, follow-up and reflections. Record only infor
 
 = Contact and governance reminder
 
-Keep printed materials and downloaded plans in accordance with Mura Kosker Sorority Inc. procedures. Any collection, sharing, reporting, storage or reuse of community information, photographs, cultural knowledge or feedback should be governed by Mura-approved arrangements and the relevant SHiP or local reporting requirements.
+Keep printed materials and downloaded plans in accordance with Mura Kosker Sorority Inc. procedures. After each plan or checklist download, confirm that the downloadable file is stored, moved or deleted appropriately from the device’s Downloads folder before the next facilitator uses the device. Any collection, sharing, reporting, storage or reuse of community information, photographs, cultural knowledge or feedback should be governed by Mura-approved arrangements and the relevant Infoxchange SRS or local reporting requirements.
 
 #pagebreak()
 
