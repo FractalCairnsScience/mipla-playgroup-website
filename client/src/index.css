@@ -256,3 +256,110 @@ footer { background: var(--ink); color: #f9f4e9; padding: 30px clamp(36px, 7vw, 
 .legacy-footer .partner-logo-row img { border: 1px solid #d9e3e6; }
 @media (max-width: 820px) { .footer-partnership { justify-items: start; }.legacy-partnership { justify-content: center; } }
 @media (max-width: 540px) { .partner-logo-row { gap: 6px; }.partner-logo-row img, .site-main footer .footer-partnership .partner-logo-row img { height: 28px; max-width: 82px; padding: 2px 4px; }.legacy-partnership { gap: 9px; } }
+/* September 2026 page refresh: Mura dove-blue navigation, simplified page headings and explicit footer attribution. */
+:root {
+  --mura-dove-blue: #0058a8;
+  --mura-dove-blue-deep: #003f82;
+}
+
+/* The interior navigation rail now uses the deep blue visible in the Mura Kosker dove. */
+.side-nav {
+  background: var(--mura-dove-blue);
+}
+.side-nav nav button:hover,
+.side-nav nav button.active {
+  background: rgba(255, 255, 255, .16);
+  border-left-color: #00a0e0;
+}
+.side-bottom {
+  border-top-color: rgba(255, 255, 255, .24);
+}
+.brand-lockup {
+  border-bottom-color: rgba(255, 255, 255, .24);
+}
+.brand-lockup span,
+.brand-note {
+  color: #d9efff;
+}
+.facilitator-strip button:hover {
+  background: var(--mura-dove-blue);
+}
+
+/* Remove the arced heading artwork; retain only the selected headings and supporting copy. */
+.page-heading {
+  padding-top: 0;
+}
+.page-heading::before {
+  content: none;
+}
+
+/* The home page no longer has a large dot circle in the upper page area; card accents remain. */
+.legacy-home-shell {
+  background-image: none;
+}
+
+/* The Activity Library no longer carries a dot pattern in its top-right cream area. */
+.activity-page {
+  background-image: none;
+}
+
+/* Centre and scale the Session Planner action to match the Local first panel width. */
+.planner-heading {
+  margin-bottom: 30px;
+}
+.planner-create-wrap {
+  max-width: 850px;
+  margin: 0 0 30px;
+  display: flex;
+  justify-content: center;
+}
+.planner-create-button {
+  width: 100%;
+  min-height: 76px;
+  padding: 18px 26px;
+  font-size: 18px;
+  box-shadow: 0 12px 25px rgba(0, 88, 168, .22);
+}
+.planner-create-button:hover {
+  background: var(--mura-dove-blue-deep);
+}
+
+/* Repeat the requested website attribution and image-permission statement beside the existing acknowledgement. */
+.footer-acknowledgements {
+  display: grid;
+  gap: 7px;
+  max-width: 680px;
+}
+.footer-acknowledgements p {
+  margin: 0;
+}
+.site-main footer .footer-acknowledgements p,
+.legacy-footer .footer-acknowledgements p {
+  color: #c6d9d5;
+  font-size: 12px;
+  line-height: 1.48;
+}
+.legacy-partnership-copy {
+  display: grid;
+  gap: 8px;
+  flex: 1 1 520px;
+}
+.legacy-footer .footer-acknowledgements {
+  text-align: left;
+}
+
+@media (max-width: 820px) {
+  .planner-create-wrap {
+    max-width: none;
+  }
+  .planner-create-button {
+    min-height: 66px;
+  }
+  .legacy-footer .footer-acknowledgements {
+    text-align: center;
+  }
+}
+/* Keep the added acknowledgement text readable against the public landing page's white footer. */
+.legacy-footer .footer-acknowledgements p {
+  color: #536c76;
+}
